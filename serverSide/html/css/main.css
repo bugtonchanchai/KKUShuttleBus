@@ -1,0 +1,84 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+	/*font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 300;
+	font-size: 12pt; */
+}
+table.primaryTable {
+    height: 600px;
+    width: 1024px;
+    border: 0px;
+    border-collapse: collapse;
+}
+table.secondaryTable {
+    /* height: 150%; */
+    width: 100%;
+    border: 2px solid black;
+    border-collapse: collapse;
+    text-align: left;
+}
+table.databaseTable {
+	width: 600px;
+    border-collapse: collapse;
+}
+table.databaseTable td.databaseTable {
+	border: 1px solid black;
+}
+table.databaseTable2 {
+	width: 100%;
+    border-collapse: collapse;
+}
+td.databaseTable2 {
+	border: 1px solid black;
+}
+
+tr.secTab_td_odd { 
+    border: 0px;
+    border-collapse: collapse;
+    background-color: #DADADA;
+}
+tr.secTab_td_even {
+    border: 0px;
+    border-collapse: collapse;
+    background-color: #D1D1D1;
+}
+
+#map-canvas {
+    height: 100%;
+    width: 70%;
+    margin: 0;
+    padding: 0;
+}
+#infoDiv {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+}
+
+#info_bus01, #info_bus1, #info_bus02, #info_bus2, #info_bus3, #info_bus03, #info_bus4, #info_bus04, #info_bus5, #info_bus05 {
+	border-bottom: 2px solid black;
+	color: #000000;
+	background-color: #FF4D4D;
+}
+#info_bus06, #info_bus6, #info_bus07, #info_bus7, #info_bus8, #info_bus08 {
+	border-bottom: 2px solid black;
+	color: #000000;
+	background-color: #FFFF4D;
+}
+#info_bus09, #info_bus9, #info_bus010, #info_bus10, #info_bus011, #info_bus11, #info_bus12, #info_bus012, #info_bus13, #info_bus013 {
+	border-bottom: 2px solid black;
+	color: #E9E9E9;
+	background-color: #3333FF;
+}
+#info_bus014, #info_bus14, #info_bus015, #info_bus15 {
+	border-bottom: 2px solid black;
+	color: #000000;
+	background-color: #FF9A33;
+}
+
+#flashContent {
+	background-color: #333333;
+}

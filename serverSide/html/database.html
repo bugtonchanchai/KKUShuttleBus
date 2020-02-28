@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Database</title>
+        <style>
+            #tb1,td {
+                border-collapse: collapse;
+                border: 1px solid black;
+                width: 600px;
+            }
+        </style>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+        <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
+        <script>
+            var busID = [];
+            var color = [];
+            var dist = [];
+            $(document).ready(function () {
+                $.getJSON("/db_json?table=color", function (data) {
+                    $.each(data.result, function (i, item) {
+                        busID[i] = item.BUSID;
+                        color[i] = item.COLOR;
+                    });
+                });
+                $.getJSON("/db_json?table=distance", function (data) {
+                    $.each(data.result, function (i, item) {
+                        var j;
+                        for (j = 0; j <= busID.length; j++) {
+                            if (color[j] == item.COLOR) {
+                                dist[j] = item.DIST;
+                            }
+                        }
+                    });
+                });
+            });
+
+            $(function () {
+                $("#datepicker").datepicker();
+                $('input:radio[name="list"]').change(function () {
+                    if ($(this).is(':checked') && $(this).val() == "type1") {
+                        $("#datepicker").val("-- เลือกวันที่ต้องการ --");
+                        $("#datepicker").prop('disabled', true);
+                        $("#ddl_year1").prop('disabled', false);
+                        $("#ddl_year2").prop('disabled', true);
+                        $("#ddl_month").prop('disabled', true);
+                        $("#ddl_year2").val("default");
+                        $("#ddl_month").val("default");
+                    } else if ($(this).is(':checked') && $(this).val() == "type2") {
+                        $("#datepicker").val("-- เลือกวันที่ต้องการ --");
+                        $("#datepicker").prop('disabled', true);
+                        $("#ddl_month").prop('disabled', false);
+                        $("#ddl_year1").prop('disabled', true);
+                        $("#ddl_year2").prop('disabled', false);
+                        $("#ddl_year1").val("default");
+                    } else {
+                        $("#datepicker").prop('disabled', false);
+                        $("#ddl_month").prop('disabled', true);
+                        $("#ddl_year1").prop('disabled', true);
+                        $("#ddl_year2").prop('disabled', true);
+                        $("#ddl_month").val("default");
+                        $("#ddl_year1").val("default");
+                        $("#ddl_year2").val("default");
+                    }
+                });
+                $("#submit").click(function () {
+                    if ($("#datepicker").val() !== "-- เลือกวันที่ต้องการ --") {
+                        var temp = $("#datepicker").val();
+                        var dd = temp.substring(3, 5);
+                        var mm = temp.substring(0, 2);
+                        var yy = temp.substring(6, 10);
+                        db_query_date(yy + '-' + mm + '-' + dd);
+                    } else if ($("#ddl_month").val() !== null && $("#ddl_year2").val() !== null) {
+                        var temp_m = $("#ddl_month").val();
+                        var temp_y = $("#ddl_year2").val();
+                        db_query_MY(temp_m + '-' + temp_y);
+                    } else if ($("#ddl_year1").val() !== null) {
+                        var temp_y = $("#ddl_year1").val();
+                        db_query_Y(temp_y);
+                    } else {
+                        alert("โปรดเลือกรายละเอียดให้ถูกต้อง");
+                    }
+                });
+            });
+
+            // Year
+            function db_query_Y(param) {
+                var temp_round = 0;
+                var temp_dist = 0;
+                var temp_avgvel = 0;
+                var temp_maxvel = 0;
+                var temp_numpeo = 0;
+
+                var yy = param.substring(0, 4);
+
+                for (var index = 0; index < busID.length; index++) {
+                    (function (index) {
+                        if (index == 0) {
+                            $('#div1').empty();
+                            $('#div1').append('<h3>ข้อมูลประจำปี ' + (parseInt(yy) + 543) + '</h3>');
+                            $('#div1').append('<table id="tb1">');
+                            $('#tb1').append('<tr align="center"><td><b>หมายเลขรถ</b></td>' +
+                                    '<td><b>สายรถ</b></td>' +
+                                    '<td><b>ระยะทางต่อเที่ยว(Km)</b></td>' +
+                                    '<td><b>จำนวนเที่ยว(เที่ยว)</b></td>' +
+                                    '<td><b>ระยะทางรวม(Km)</b></td>' +
+                                    '<td><b>ความเร็วเฉลี่ย(Km/hr)</b></td>' +
+                                    '<td><b>ความเร็วสูงสุด(Km/hr)</b></td>' +
+                                    '<td><b>จำนวนผู้โดยสาร(คน)</b></td></tr>');
+                        }
+                        var url = "/db_json?table=bus" + busID[index] + "&where=year(DATE)=" + yy;
+                        console.log(url);
+                        $.getJSON(url, function (data) {
+                            if (data.result == "") {
+                                $('#tb1').append('<tr align="center">' +
+                                        '<td>' + busID[index] + '</td>' +
+                                        '<td>' + color[index] + '</td>' +
+                                        '<td>' + dist[index] + '</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>');
+                                return
+                            }
+                            $.each(data.result, function (i, item) {
+                                temp_round = temp_round + item.ROUND;
+                                temp_dist = temp_dist + item.DIST;
+                                temp_avgvel = temp_avgvel + item.AVG_V;
+                                temp_maxvel = temp_maxvel + item.MAX_V;
+                                temp_numpeo = temp_numpeo + item.NUM_P;
+                                // console.log(index + "..." + temp_round);
+                            });
+
+                            $('#tb1').append('<tr align="center">' +
+                                    '<td>' + busID[index] + '</td>' +
+                                    '<td>' + color[index] + '</td>' +
+                                    '<td>' + dist[index] + '</td>' +
+                                    '<td>' + temp_round + '</td>' +
+                                    '<td>' + temp_dist + '</td>' +
+                                    '<td>' + temp_avgvel + '</td>' +
+                                    '<td>' + temp_maxvel + '</td>' +
+                                    '<td>' + temp_numpeo + '</td></tr>');
+
+                            temp_round = 0;
+                            temp_dist = 0;
+                            temp_avgvel = 0;
+                            temp_maxvel = 0;
+                            temp_numpeo = 0;
+                        });
+                    })(index);
+                }
+                $('#div1').append('</table>');
+            }
+
+            // Mounth
+            function db_query_MY(param) {
+                var temp_round = 0;
+                var temp_dist = 0;
+                var temp_avgvel = 0;
+                var temp_maxvel = 0;
+                var temp_numpeo = 0;
+
+                var mm = param.substring(0, 2);
+                var yy = param.substring(3, 8);
+
+                for (var index = 0; index < busID.length; index++) {
+                    (function (index) {
+                        if (index == 0) {
+                            $('#div1').empty();
+                            $('#div1').append('<h3>ข้อมูลประจำเดือน ' + mm + '/' + (parseInt(yy) + 543) + '</h3>');
+                            $('#div1').append('<table id="tb1">');
+                            $('#tb1').append('<tr align="center"><td><b>หมายเลขรถ</b></td>' +
+                                    '<td><b>สายรถ</b></td>' +
+                                    '<td><b>ระยะทางต่อเที่ยว(Km)</b></td>' +
+                                    '<td><b>จำนวนเที่ยว(เที่ยว)</b></td>' +
+                                    '<td><b>ระยะทางรวม(Km)</b></td>' +
+                                    '<td><b>ความเร็วเฉลี่ย(Km/hr)</b></td>' +
+                                    '<td><b>ความเร็วสูงสุด(Km/hr)</b></td>' +
+                                    '<td><b>จำนวนผู้โดยสาร(คน)</b></td></tr>');
+                        }
+                        var url = "/db_json?table=bus" + busID[index] + "&where=month(DATE)=" + mm + " AND year(DATE)=" + yy;
+                        console.log(url);
+                        $.getJSON(url, function (data) {
+                            if (data.result == "") {
+                                $('#tb1').append('<tr align="center">' +
+                                        '<td>' + busID[index] + '</td>' +
+                                        '<td>' + color[index] + '</td>' +
+                                        '<td>' + dist[index] + '</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>');
+                                return
+                            }
+                            $.each(data.result, function (i, item) {
+                                temp_round = temp_round + item.ROUND;
+                                temp_dist = temp_dist + item.DIST;
+                                temp_avgvel = temp_avgvel + item.AVG_V;
+                                temp_maxvel = temp_maxvel + item.MAX_V;
+                                temp_numpeo = temp_numpeo + item.NUM_P;
+                                // console.log(index + "..." + temp_round);
+                            });
+
+                            $('#tb1').append('<tr align="center">' +
+                                    '<td>' + busID[index] + '</td>' +
+                                    '<td>' + color[index] + '</td>' +
+                                    '<td>' + dist[index] + '</td>' +
+                                    '<td>' + temp_round + '</td>' +
+                                    '<td>' + temp_dist + '</td>' +
+                                    '<td>' + temp_avgvel + '</td>' +
+                                    '<td>' + temp_maxvel + '</td>' +
+                                    '<td>' + temp_numpeo + '</td></tr>');
+
+                            temp_round = 0;
+                            temp_dist = 0;
+                            temp_avgvel = 0;
+                            temp_maxvel = 0;
+                            temp_numpeo = 0;
+                        });
+                    })(index);
+                }
+                $('#div1').append('</table>');
+            }
+
+            // Day
+            function db_query_date(param) {
+                var temp_round = 0;
+                var temp_dist = 0;
+                var temp_avgvel = 0;
+                var temp_maxvel = 0;
+                var temp_numpeo = 0;
+
+                var dd = param.substring(8, 10);
+                var mm = param.substring(5, 7);
+                var yy = param.substring(0, 4);
+
+                for (var index = 0; index < busID.length; index++) {
+                    (function (index) {
+                        if (index == 0) {
+                            $('#div1').empty();
+                            $('#div1').append('<h3>ข้อมูลประจำวันที่ ' + dd + '/' + mm + '/' + (parseInt(yy) + 543) + '</h3>');
+                            $('#div1').append('<table id="tb1">');
+                            $('#tb1').append('<tr align="center"><td><b>หมายเลขรถ</b></td>' +
+                                    '<td><b>สายรถ</b></td>' +
+                                    '<td><b>ระยะทางต่อเที่ยว(Km)</b></td>' +
+                                    '<td><b>จำนวนเที่ยว(เที่ยว)</b></td>' +
+                                    '<td><b>ระยะทางรวม(Km)</b></td>' +
+                                    '<td><b>ความเร็วเฉลี่ย(Km/hr)</b></td>' +
+                                    '<td><b>ความเร็วสูงสุด(Km/hr)</b></td>' +
+                                    '<td><b>จำนวนผู้โดยสาร(คน)</b></td></tr>');
+                        }
+                        var url = "/db_json?table=bus" + busID[index] + "&where=DATE='" + yy + "-" + mm + "-" + dd + "'";
+                        $.getJSON(url, function (data) {
+                            if (data.result == "") {
+                                $('#tb1').append('<tr align="center">' +
+                                        '<td>' + busID[index] + '</td>' +
+                                        '<td>' + color[index] + '</td>' +
+                                        '<td>' + dist[index] + '</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>');
+                                return
+                            }
+                            $.each(data.result, function (i, item) {
+                                temp_round = item.ROUND;
+                                temp_dist = item.DIST;
+                                temp_avgvel = item.AVG_V;
+                                temp_maxvel = item.MAX_V;
+                                temp_numpeo = item.NUM_P;
+                            });
+
+                            $('#tb1').append('<tr align="center">' +
+                                    '<td>' + busID[index] + '</td>' +
+                                    '<td>' + color[index] + '</td>' +
+                                    '<td>' + dist[index] + '</td>' +
+                                    '<td>' + temp_round + '</td>' +
+                                    '<td>' + temp_dist + '</td>' +
+                                    '<td>' + temp_avgvel + '</td>' +
+                                    '<td>' + temp_maxvel + '</td>' +
+                                    '<td>' + temp_numpeo + '</td></tr>');
+
+                            temp_round = 0;
+                            temp_dist = 0;
+                            temp_avgvel = 0;
+                            temp_maxvel = 0;
+                            temp_numpeo = 0;
+                        });
+                    })(index);
+                }
+                $('#div1').append('</table>');
+            }
+        </script>
+    </head>
+    <body>
+        <h3>เลือกรูปแบบที่ต้องการแสดง</h3>
+        <form>
+            <input type="radio" name="list" value="type1">แสดงข้อมูลทั้งหมด
+            <select id = "ddl_year1" disabled>
+                <option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+                <option value="2014">2557</option>
+                <option value="2015">2558</option>
+                <option value="2016">2559</option>
+                <option value="2017">2560</option>
+                <option value="2018">2561</option>
+            </select><br/>
+            <input type="radio" name="list" value="type2">แสดงข้อมูลรายเดือน
+            <select id = "ddl_month" disabled>
+                <option disabled selected value="default"> -- เลือกเดือนที่ต้องการแสดง -- </option>
+                <option value="01">มกราคม</option>
+                <option value="02">กุมภาพันธ์</option>
+                <option value="03">มีนาคม</option>
+                <option value="04">เมษายน</option>
+                <option value="05">พฤษภาคม</option>
+                <option value="06">มิถุนายน</option>
+                <option value="07">กรกฎาคม</option>
+                <option value="08">สิงหาคม</option>
+                <option value="09">กันยายน</option>
+                <option value="10">ตุลาคม</option>
+                <option value="11">พฤศจิกายน</option>
+                <option value="12">ธันวาคม</option>
+            </select>
+            <select id = "ddl_year2" disabled>
+                <option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+                <option value="2014">2557</option>
+                <option value="2015">2558</option>
+                <option value="2016">2559</option>
+                <option value="2017">2560</option>
+                <option value="2018">2561</option>
+            </select><br/>
+            <input type="radio" name="list" value="type3">แสดงข้อมูลรายวัน
+            <input type="text" id="datepicker" value="-- เลือกวันที่ต้องการ --" size="15" disabled>
+            <br/>
+            <input type="button" id="submit" value="submit">
+            <br/><br/>
+        </form>
+        <hr/>
+        <div id="div1"></div>
+    </body>

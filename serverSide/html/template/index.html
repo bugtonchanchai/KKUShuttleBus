@@ -1,0 +1,953 @@
+<!DOCTYPE HTML>
+<!--
+        Prologue by HTML5 UP
+        html5up.net | @n33co
+        Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>KKU Shuttle Bus Tracking System</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/jquery.scrolly.min.js"></script>
+        <script src="js/jquery.scrollzer.min.js"></script>
+        <script src="js/skel.min.js"></script>
+        <script src="js/skel-layers.min.js"></script>
+        <script src="js/init.js"></script>
+        <noscript>
+        <link rel="stylesheet" href="css/skel.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/style-wide.css" />
+        </noscript>
+        <!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+        <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+		
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnWIxyviikAuZ6cm7mtHWVND030pb08LM&libraries=geometry&v=3.exp&sensor=false"></script>
+        <script src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+		<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		<style type="text/css">
+            #map-canvas {
+                height:  100%;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+		<script type="text/javascript">
+            /********** Global variables zone **********/
+            var map;
+            var pos;
+            var marker = [];				// bus maker
+            var placemarker;			// place marker
+            var mymarker; 				// my position marker
+            var busNumber = 15;		// totol fo bus
+            var myLoc = new google.maps.LatLng(16.474430, 102.822495);
+
+
+            /********** initial function **********/
+            $(document).ready(initialize);
+            function initialize() {
+                var mapOptions = {
+					scrollwheel: false,
+					navigationControl: true,
+					mapTypeControl: true,
+					scaleControl: true,
+					draggable: true,
+					
+                    position: myLoc,
+                    center: myLoc,
+                    zoom: 16,
+                    //mapTypeControl: true,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                        position: google.maps.ControlPosition.BOTTOM_LEFT
+                    },
+                    panControl: true,
+                    panControlOptions: {
+                        position: google.maps.ControlPosition.MIDDLE_CENTER
+                    }
+                };
+
+                // bus marker initial
+                map = new google.maps.Map($('#map-canvas')[0], mapOptions);
+                var i;
+                for (i = 1; i <= busNumber; i++) {
+                    if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5) {
+                        marker[i] = new google.maps.Marker({
+                            map: map,
+                            icon: "/picture?pic=4",
+                            title: "No. " + i
+                        });
+                    } else if (i == 6 || i == 7 || i == 8) {
+                        marker[i] = new google.maps.Marker({
+                            map: map,
+                            icon: "/picture?pic=5",
+                            title: "No. " + i
+                        });
+                    } else if (i == 9 || i == 10 || i == 11 || i == 12) {
+                        marker[i] = new google.maps.Marker({
+                            map: map,
+                            icon: "/picture?pic=6",
+                            title: "No. " + i
+                        });
+                    } else {
+                        marker[i] = new google.maps.Marker({
+                            map: map,
+                            icon: "/picture?pic=7",
+                            title: "No. " + i
+                        });
+                    }
+                }
+                geolocation();
+                showbusstop();
+
+                // home button
+                var homeControlDiv = document.createElement('div');
+                var homeControl = new HomeControl(homeControlDiv, map);
+                homeControlDiv.index = 1;
+                map.controls[google.maps.ControlPosition.RIGHT_TOP].push(homeControlDiv);
+
+                // find bus stop button
+                var nearBusstopDiv = document.createElement('div');
+                var nearBusstop = new NearBusstop(nearBusstopDiv, map);
+                nearBusstopDiv.index = 1;
+                map.controls[google.maps.ControlPosition.RIGHT_TOP].push(nearBusstopDiv);
+
+                // red line button
+                var redLineDiv = document.createElement('div');
+                var redLine = new Redline(redLineDiv, map);
+                redLineDiv.index = 1;
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(redLineDiv);
+
+                // yellow line button
+                var yellowLineDiv = document.createElement('div');
+                var yellowLine = new Yellowline(yellowLineDiv, map);
+                yellowLineDiv.index = 1;
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(yellowLineDiv);
+
+                // blue line button
+                var blueLineDiv = document.createElement('div');
+                var blueLine = new Blueline(blueLineDiv, map);
+                blueLineDiv.index = 1;
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(blueLineDiv);
+
+                // orange line button
+                var orangeLineDiv = document.createElement('div');
+                var orangeLine = new Orangeline(orangeLineDiv, map);
+                orangeLineDiv.index = 1;
+                map.controls[google.maps.ControlPosition.TOP_CENTER].push(orangeLineDiv);
+            }
+
+
+            /********** Socket zone **********/
+            var arrOldloc = [];
+            var arrNewloc = [];
+            var arrLat = [];
+            var arrLng = [];
+            var arrTime = [];
+            var arrVelocity = [];
+
+            $(document).ready(function () {
+                io = io.connect()
+                io.on('connector', function (data) {
+                    var splData = data.split(",");	// data package "busID,lat,lng,time"
+                    var busID = splData[0];		// busID
+                    var lat = splData[1];		// lat
+                    var lng = splData[2];		// long
+                    var time = splData[3]; 		// time
+                    var vel = splData[4];		// velocity
+                    var dist = splData[5];		// distance
+
+                    if (lat != null && lng != null) {
+                        var i;
+                        for (i = 1; i <= busNumber; i++) {
+                            arrNewloc[busID] = new google.maps.LatLng(lat, lng);
+                            arrLat[busID] = lat;
+                            arrLng[busID] = lng;
+                            arrTime[busID] = time;
+                            arrVelocity[busID] = vel;
+
+                            marker[busID].setPosition(arrNewloc[busID]);
+                            // map.panTo(arrNewloc[busID]);
+
+                            //$("#bus" + busID).val(arrLat[busID] + "," + arrLng[busID]);
+                            //$("#time" + busID).val(arrTime[busID]);
+                            //$("#velo" + busID).val(arrVelocity[busID]);
+                        }
+                    }
+                })
+            });
+
+            /********** Function zone **********/
+            // find destination function
+            $(function () {
+                var temp = "/getplaceapi";
+                var icon = "/picture?pic=3";
+                getlocation(temp);
+                /*
+                 $("#destMain").change(function(){
+                 if	($(this).val() == "type1")	temp = "/foodapi",	getlocation(temp);
+                 else if	($(this).val() == "type2")	temp = "/coffeeapi",	getlocation(temp);
+                 else if	($(this).val() == "type3")	temp = "/meetingapi",	getlocation(temp);
+                 else if	($(this).val() == "type4")	temp = "/libapi",	getlocation(temp);
+                 else if	($(this).val() == "type5")	temp = "/hotelapi",	getlocation(temp);
+                 else if	($(this).val() == "type6")	temp = "/atmapi",	getlocation(temp);
+                 else if	($(this).val() == "type7")	temp = "/carparkapi",	getlocation(temp);
+                 else if	($(this).val() == "type8")	temp = "/toiletapi",	getlocation(temp);
+                 else if	($(this).val() == "type10")	temp = "/busstopapi",	getlocation(temp);
+                 });
+                 */
+                $("#destSub").change(function () {
+                    var i = $(this).val();
+                    $.getJSON(temp, function (data) {
+                        $.each(data.places, function (j, item) {
+                            if (i == j) {
+                                var placename = item.title;
+                                var placeLatLng = new google.maps.LatLng(item.location.lat, item.location.long);
+                                if (placemarker != null) {
+                                    placemarker.setTitle(placename);
+                                    //placemarker.setAnimation(google.maps.Animation.BOUNCE);
+                                    placemarker.setPosition(placeLatLng);
+                                }
+                                else {
+                                    placemarker = new google.maps.Marker({
+                                        icon: icon,
+                                        map: map,
+                                        title: placename,
+                                        position: placeLatLng
+                                    });
+                                    //placemarker.setAnimation(google.maps.Animation.BOUNCE);
+                                }
+                                map.panTo(placeLatLng);
+                            }
+                        });
+                    });
+                });
+            });
+
+            // find destination function
+            function getlocation(url) {
+                dataUrl = url;
+                $("#destSub")
+                        .find('option')
+                        .remove()
+                        .end();
+                $.getJSON(dataUrl, function (data) {
+                    $("#destSub").append("<option disabled selected> -- เลือกสถานที่ต้องการ -- </option>");
+                    $.each(data.places, function (i, item) {
+                        $("#destSub").append(new Option(item.title, i));
+                    });
+                });
+            }
+
+            // geolocation function
+            function geolocation() {
+                var usericon = "/picture?pic=2";
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    if (mymarker != null) {
+                        mymarker.setPosition(pos);
+                    }
+                    else {
+                        mymarker = new google.maps.Marker({
+                            icon: usericon,
+                            map: map,
+                            title: "my loction",
+                            position: pos
+                        });
+                    }
+                    map.panTo(pos);
+                });
+            }
+
+            // bus stop plotting function
+            function showbusstop() {
+                // iKKU busstop api
+                var markerbusstop = "/picture?pic=1";
+                dataUrl = "/placekkuapi?type=10";
+                $.getJSON(dataUrl, function (data) {
+                    $.each(data.result, function (i, item) {
+                        var busStopMarker = new google.maps.Marker({
+                            position: new google.maps.LatLng(item.lat, item.lon),
+                            icon: markerbusstop,
+                            map: map,
+                            title: item.name
+                        });
+                    });
+                });
+            }
+
+            // home button func()
+            function HomeControl(controlDiv, map) {
+                controlDiv.style.padding = '5px';
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = 'white';
+                controlUI.style.borderStyle = 'solid';
+                controlUI.style.borderWidth = '1px';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Click to set the map to your location';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.fontFamily = 'Arial,sans-serif';
+                controlText.style.fontSize = '14px';
+                controlText.style.paddingLeft = '4px';
+                controlText.style.paddingRight = '4px';
+                controlText.innerHTML = '<b>My location</b>';
+                controlUI.appendChild(controlText);
+
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    //map.panTo(pos);
+                    geolocation();
+                });
+            }
+
+            // find bus stop func()
+            function NearBusstop(controlDiv, map) {
+                controlDiv.style.padding = '5px';
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = 'white';
+                controlUI.style.borderStyle = 'solid';
+                controlUI.style.borderWidth = '1px';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Click to find nearest busstop';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.fontFamily = 'Arial,sans-serif';
+                controlText.style.fontSize = '14px';
+                controlText.style.paddingLeft = '4px';
+                controlText.style.paddingRight = '4px';
+                controlText.innerHTML = '<b>Near bus stop</b>';
+                controlUI.appendChild(controlText);
+
+				var togg = false;
+				var directionsDisplay = new google.maps.DirectionsRenderer();
+				var directionsService = new google.maps.DirectionsService();
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+					var p1 = pos;
+                    var p2;
+                    var dis = 3000;
+                    var temp_p2;
+                    var request;
+                    var bussurl = "/placekkuapi?type=10";
+                    $.getJSON(bussurl, function (data) {
+                        $.each(data.result, function (i, item) {
+                            temp_p2 = new google.maps.LatLng(item.lat, item.lon);
+                            var temp_dis = google.maps.geometry.spherical.computeDistanceBetween(p1, temp_p2);
+                            if (temp_dis < dis) {
+                                dis = temp_dis;
+                                p2 = temp_p2;
+                            }
+                        });
+                        request = {
+                            origin: p1,
+                            destination: p2,
+                            travelMode: google.maps.TravelMode.WALKING
+                        };
+                        directionsService.route(request, function (response, status) {
+                            if (status === google.maps.DirectionsStatus.OK) {
+								if (togg == false) {
+									directionsDisplay.setDirections(response);
+									directionsDisplay.setMap(map);
+									directionsDisplay.setOptions({suppressMarkers: true});
+									togg = true;
+								} else {
+									directionsDisplay.setMap(null);
+									geolocation();
+									togg = false;
+								}
+                            }
+                        });
+                    });
+                });
+            }
+
+            // redline button func()
+            function Redline(controlDiv, map) {
+                controlDiv.style.padding = '5px';
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = 'red';
+                controlUI.style.borderStyle = 'solid';
+                controlUI.style.borderWidth = '2px';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'view red line';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.fontFamily = 'Arial,sans-serif';
+                controlText.style.fontSize = '14px';
+                controlText.style.paddingLeft = '4px';
+                controlText.style.paddingRight = '4px';
+                controlText.innerHTML = '<b>line 1</b>';
+                controlUI.appendChild(controlText);
+
+                var url_kml = "https://fb.kku.ac.th/chanchai14-xml/Project/serverSide/kml/line1.kml";
+                var kmlOptions = {preserveViewport: 1};
+                var line1 = new google.maps.KmlLayer(url_kml, kmlOptions);
+                line1.setMap(null);
+                var togg = false;
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    if (!togg) {
+                        line1.setMap(map);
+                        togg = true;
+                    }
+                    else {
+                        line1.setMap(null);
+                        togg = false;
+                    }
+                });
+            }
+
+            // yellowline button func()
+            function Yellowline(controlDiv, map) {
+                controlDiv.style.padding = '5px';
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = 'yellow';
+                controlUI.style.borderStyle = 'solid';
+                controlUI.style.borderWidth = '2px';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'view yellow line';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.fontFamily = 'Arial,sans-serif';
+                controlText.style.fontSize = '14px';
+                controlText.style.paddingLeft = '4px';
+                controlText.style.paddingRight = '4px';
+                controlText.innerHTML = '<b>line 2</b>';
+                controlUI.appendChild(controlText);
+
+                var url_kml = "https://fb.kku.ac.th/chanchai14-xml/Project/serverSide/kml/line2.kml";
+                var kmlOptions = {preserveViewport: 1};
+                var line2 = new google.maps.KmlLayer(url_kml, kmlOptions);
+                line2.setMap(null);
+                var togg = false;
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    if (!togg) {
+                        line2.setMap(map);
+                        togg = true;
+                    }
+                    else {
+                        line2.setMap(null);
+                        togg = false;
+                    }
+                });
+            }
+
+            // blueline button func()
+            function Blueline(controlDiv, map) {
+                controlDiv.style.padding = '5px';
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = 'blue';
+                controlUI.style.borderStyle = 'solid';
+                controlUI.style.borderWidth = '2px';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'view blue line';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.fontFamily = 'Arial,sans-serif';
+                controlText.style.fontSize = '14px';
+                controlText.style.paddingLeft = '4px';
+                controlText.style.paddingRight = '4px';
+                controlText.innerHTML = '<b>line 3</b>';
+                controlUI.appendChild(controlText);
+
+                var url_kml = "https://fb.kku.ac.th/chanchai14-xml/Project/serverSide/kml/line3.kml";
+                var kmlOptions = {preserveViewport: 1};
+                var line3 = new google.maps.KmlLayer(url_kml, kmlOptions);
+                line3.setMap(null);
+                var togg = false;
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    if (!togg) {
+                        line3.setMap(map);
+                        togg = true;
+                    }
+                    else {
+                        line3.setMap(null);
+                        togg = false;
+                    }
+                });
+            }
+
+            // orangeline button func()
+            function Orangeline(controlDiv, map) {
+                controlDiv.style.padding = '5px';
+
+                // Set CSS for the control border
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = 'orange';
+                controlUI.style.borderStyle = 'solid';
+                controlUI.style.borderWidth = '2px';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'view orange line';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior
+                var controlText = document.createElement('div');
+                controlText.style.fontFamily = 'Arial,sans-serif';
+                controlText.style.fontSize = '14px';
+                controlText.style.paddingLeft = '4px';
+                controlText.style.paddingRight = '4px';
+                controlText.innerHTML = '<b>line 4</b>';
+                controlUI.appendChild(controlText);
+
+                var url_kml = "https://fb.kku.ac.th/chanchai14-xml/Project/serverSide/kml/line4.kml";
+                var kmlOptions = {preserveViewport: 1};
+                var line4 = new google.maps.KmlLayer(url_kml, kmlOptions);
+                line4.setMap(null);
+                var togg = false;
+                google.maps.event.addDomListener(controlUI, 'click', function () {
+                    if (!togg) {
+                        line4.setMap(map);
+                        togg = true;
+                    }
+                    else {
+                        line4.setMap(null);
+                        togg = false;
+                    }
+                });
+            }
+        </script>
+		<script>
+            var busID = [];
+            var color = [];
+            var dist = [];
+            $(document).ready(function () {
+                $.getJSON("/db_json?query=select * from color a,distance b where a.color=b.color order by busid", function (data) {
+                    $.each(data.result, function (i, item) {
+                        busID[i] = item.BUSID;
+                        color[i] = item.COLOR;
+						dist[i] = item.PATH;
+                    });
+                });
+            });
+
+            $(function () {
+                $("#datepicker").datepicker();
+                $('input:radio[name="list"]').change(function () {
+                    if ($(this).is(':checked') && $(this).val() == "type1") {
+                        $("#datepicker").val("-- เลือกวันที่ต้องการ --");
+                        $("#datepicker").prop('disabled', true);
+                        $("#ddl_year1").prop('disabled', false);
+                        $("#ddl_year2").prop('disabled', true);
+                        $("#ddl_month").prop('disabled', true);
+                        $("#ddl_year2").val("default");
+                        $("#ddl_month").val("default");
+                    } else if ($(this).is(':checked') && $(this).val() == "type2") {
+                        $("#datepicker").val("-- เลือกวันที่ต้องการ --");
+                        $("#datepicker").prop('disabled', true);
+                        $("#ddl_month").prop('disabled', false);
+                        $("#ddl_year1").prop('disabled', true);
+                        $("#ddl_year2").prop('disabled', false);
+                        $("#ddl_year1").val("default");
+                    } else {
+                        $("#datepicker").prop('disabled', false);
+                        $("#ddl_month").prop('disabled', true);
+                        $("#ddl_year1").prop('disabled', true);
+                        $("#ddl_year2").prop('disabled', true);
+                        $("#ddl_month").val("default");
+                        $("#ddl_year1").val("default");
+                        $("#ddl_year2").val("default");
+                    }
+                });
+                $("#submit").click(function () {
+                    if ($("#datepicker").val() !== "-- เลือกวันที่ต้องการ --") {
+                        var temp = $("#datepicker").val();
+                        var dd = temp.substring(3, 5);
+                        var mm = temp.substring(0, 2);
+                        var yy = temp.substring(6, 10);
+                        db_query_date(yy + '-' + mm + '-' + dd);
+                    } else if ($("#ddl_month").val() !== null && $("#ddl_year2").val() !== null) {
+                        var temp_m = $("#ddl_month").val();
+                        var temp_y = $("#ddl_year2").val();
+                        db_query_MY(temp_m + '-' + temp_y);
+                    } else if ($("#ddl_year1").val() !== null) {
+                        var temp_y = $("#ddl_year1").val();
+                        db_query_Y(temp_y);
+                    } else {
+                        alert("โปรดเลือกรายละเอียดให้ถูกต้อง");
+                    }
+                });
+            });
+
+            // Year
+            function db_query_Y(param) {
+                var temp_round = 0;
+                var temp_dist = 0;
+                var temp_avgvel = 0;
+                var temp_maxvel = 0;
+                var temp_numpeo = 0;
+
+                var yy = param.substring(0, 4);
+
+                for (var index = 0; index < busID.length; index++) {
+                    (function (index) {
+                        if (index == 0) {
+                            $('#div1').empty();
+                            $('#div1').append('<h3>ข้อมูลประจำปี ' + (parseInt(yy) + 543) + '</h3>');
+                            $('#div1').append('<table id="tb1">');
+                            $('#tb1').append('<tr align="center"><td><b>หมายเลขรถ</b></td>' +
+                                    '<td><b>สายรถ</b></td>' +
+                                    '<td><b>ระยะทางต่อเที่ยว(Km)</b></td>' +
+                                    '<td><b>จำนวนเที่ยว(เที่ยว)</b></td>' +
+                                    '<td><b>ระยะทางรวม(Km)</b></td>' +
+                                    '<td><b>ความเร็วเฉลี่ย(Km/hr)</b></td>' +
+                                    '<td><b>ความเร็วสูงสุด(Km/hr)</b></td>' +
+                                    '<td><b>จำนวนผู้โดยสาร(คน)</b></td></tr>');
+                        }
+                        var url = "/db_json?query=select year(DATE) as DATE,sum(ROUND) as ROUND,round(sum(DIST),3) as DIST,round(sum(AVG_V)/count(AVG_V),3)as AVG_V,round(max(MAX_V),3) as MAX_V,sum(NUM_P) as NUM_P from bus" + busID[index] + " where year(DATE)=" + yy + " group by year(DATE)";
+                        console.log(url);
+                        $.getJSON(url, function (data) {
+                            if (data.result == "") {
+                                $('#tb1').append('<tr align="center">' +
+                                        '<td>' + busID[index] + '</td>' +
+                                        '<td>' + color[index] + '</td>' +
+                                        '<td>' + dist[index] + '</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>');
+                                return
+                            }
+                            $.each(data.result, function (i, item) {
+                                temp_round = item.ROUND;
+                                temp_dist = item.DIST;
+                                temp_avgvel = item.AVG_V;
+                                temp_maxvel = item.MAX_V;
+                                temp_numpeo = item.NUM_P;
+                            });
+
+                            $('#tb1').append('<tr align="center">' +
+                                    '<td>' + busID[index] + '</td>' +
+                                    '<td>' + color[index] + '</td>' +
+                                    '<td>' + dist[index] + '</td>' +
+                                    '<td>' + temp_round + '</td>' +
+                                    '<td>' + temp_dist + '</td>' +
+                                    '<td>' + temp_avgvel + '</td>' +
+                                    '<td>' + temp_maxvel + '</td>' +
+                                    '<td>' + temp_numpeo + '</td></tr>');
+
+                            temp_round = 0;
+                            temp_dist = 0;
+                            temp_avgvel = 0;
+                            temp_maxvel = 0;
+                            temp_numpeo = 0;
+                        });
+                    })(index);
+                }
+                $('#div1').append('</table>');
+            }
+
+            // Mounth
+            function db_query_MY(param) {
+                var temp_round = 0;
+                var temp_dist = 0;
+                var temp_avgvel = 0;
+                var temp_maxvel = 0;
+                var temp_numpeo = 0;
+
+                var mm = param.substring(0, 2);
+                var yy = param.substring(3, 8);
+
+                for (var index = 0; index < busID.length; index++) {
+                    (function (index) {
+                        if (index == 0) {
+                            $('#div1').empty();
+                            $('#div1').append('<h3>ข้อมูลประจำเดือน ' + mm + '/' + (parseInt(yy) + 543) + '</h3>');
+                            $('#div1').append('<table id="tb1">');
+                            $('#tb1').append('<tr align="center"><td><b>หมายเลขรถ</b></td>' +
+                                    '<td><b>สายรถ</b></td>' +
+                                    '<td><b>ระยะทางต่อเที่ยว(Km)</b></td>' +
+                                    '<td><b>จำนวนเที่ยว(เที่ยว)</b></td>' +
+                                    '<td><b>ระยะทางรวม(Km)</b></td>' +
+                                    '<td><b>ความเร็วเฉลี่ย(Km/hr)</b></td>' +
+                                    '<td><b>ความเร็วสูงสุด(Km/hr)</b></td>' +
+                                    '<td><b>จำนวนผู้โดยสาร(คน)</b></td></tr>');
+                        }
+                        var url = "/db_json?query=select month(DATE) as DATE,sum(ROUND) as ROUND,round(sum(DIST),3) as DIST,round(sum(AVG_V)/count(AVG_V),3)as AVG_V,round(max(MAX_V),3) as MAX_V,sum(NUM_P) as NUM_P from bus" + busID[index] + " where month(DATE)=" + mm + " and year(DATE)=" + yy + " group by month(DATE),year(DATE)";
+                        console.log(url);
+                        $.getJSON(url, function (data) {
+                            if (data.result == "") {
+                                $('#tb1').append('<tr align="center">' +
+                                        '<td>' + busID[index] + '</td>' +
+                                        '<td>' + color[index] + '</td>' +
+                                        '<td>' + dist[index] + '</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>');
+                                return
+                            }
+                            $.each(data.result, function (i, item) {
+                                temp_round = item.ROUND;
+                                temp_dist = item.DIST;
+                                temp_avgvel = item.AVG_V;
+                                temp_maxvel = item.MAX_V;
+                                temp_numpeo = item.NUM_P;
+                            });
+
+                            $('#tb1').append('<tr align="center">' +
+                                    '<td>' + busID[index] + '</td>' +
+                                    '<td>' + color[index] + '</td>' +
+                                    '<td>' + dist[index] + '</td>' +
+                                    '<td>' + temp_round + '</td>' +
+                                    '<td>' + temp_dist + '</td>' +
+                                    '<td>' + temp_avgvel + '</td>' +
+                                    '<td>' + temp_maxvel + '</td>' +
+                                    '<td>' + temp_numpeo + '</td></tr>');
+
+                            temp_round = 0;
+                            temp_dist = 0;
+                            temp_avgvel = 0;
+                            temp_maxvel = 0;
+                            temp_numpeo = 0;
+                        });
+                    })(index);
+                }
+                $('#div1').append('</table>');
+            }
+
+            // Day
+            function db_query_date(param) {
+                var temp_round = 0;
+                var temp_dist = 0;
+                var temp_avgvel = 0;
+                var temp_maxvel = 0;
+                var temp_numpeo = 0;
+
+                var dd = param.substring(8, 10);
+                var mm = param.substring(5, 7);
+                var yy = param.substring(0, 4);
+
+                for (var index = 0; index < busID.length; index++) {
+                    (function (index) {
+                        if (index == 0) {
+                            $('#div1').empty();
+                            $('#div1').append('<h3>ข้อมูลประจำวันที่ ' + dd + '/' + mm + '/' + (parseInt(yy) + 543) + '</h3>');
+                            $('#div1').append('<table id="tb1">');
+                            $('#tb1').append('<tr align="center"><td><b>หมายเลขรถ</b></td>' +
+                                    '<td><b>สายรถ</b></td>' +
+                                    '<td><b>ระยะทางต่อเที่ยว(Km)</b></td>' +
+                                    '<td><b>จำนวนเที่ยว(เที่ยว)</b></td>' +
+                                    '<td><b>ระยะทางรวม(Km)</b></td>' +
+                                    '<td><b>ความเร็วเฉลี่ย(Km/hr)</b></td>' +
+                                    '<td><b>ความเร็วสูงสุด(Km/hr)</b></td>' +
+                                    '<td><b>จำนวนผู้โดยสาร(คน)</b></td></tr>');
+                        }
+                        var url = "/db_json?query=select * from bus" + busID[index] + " where DATE='" + yy + "-" + mm + "-" + dd + "'";
+                        $.getJSON(url, function (data) {
+                            if (data.result == "") {
+                                $('#tb1').append('<tr align="center">' +
+                                        '<td>' + busID[index] + '</td>' +
+                                        '<td>' + color[index] + '</td>' +
+                                        '<td>' + dist[index] + '</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>' +
+                                        '<td>-</td>');
+                                return
+                            }
+                            $.each(data.result, function (i, item) {
+                                temp_round = item.ROUND;
+                                temp_dist = item.DIST;
+                                temp_avgvel = item.AVG_V;
+                                temp_maxvel = item.MAX_V;
+                                temp_numpeo = item.NUM_P;
+                            });
+
+                            $('#tb1').append('<tr align="center">' +
+                                    '<td>' + busID[index] + '</td>' +
+                                    '<td>' + color[index] + '</td>' +
+                                    '<td>' + dist[index] + '</td>' +
+                                    '<td>' + temp_round + '</td>' +
+                                    '<td>' + temp_dist + '</td>' +
+                                    '<td>' + temp_avgvel + '</td>' +
+                                    '<td>' + temp_maxvel + '</td>' +
+                                    '<td>' + temp_numpeo + '</td></tr>');
+
+                            temp_round = 0;
+                            temp_dist = 0;
+                            temp_avgvel = 0;
+                            temp_maxvel = 0;
+                            temp_numpeo = 0;
+                        });
+                    })(index);
+                }
+                $('#div1').append('</table>');
+            }
+        </script>
+    </head>
+    <body>
+        <!-- Header -->
+        <div id="header" class="skel-layers-fixed">
+            <div class="top">
+                <nav id="nav">
+                    <ul>
+                        <li><a href="#top" id="top-link" class="skel-layers-ignoreHref"><span class="icon fa-home">Home</span></a></li>
+                        <li><a href="#portfolio" id="portfolio-link" class="skel-layers-ignoreHref"><span class="icon fa-th">Map</span></a></li>
+                        <li><a href="#about" id="about-link" class="skel-layers-ignoreHref"><span class="icon fa-user">Report</span></a></li>
+                        <li><a href="#contact" id="contact-link" class="skel-layers-ignoreHref"><span class="icon fa-envelope">About Me</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+			
+            <div class="bottom">
+                <!-- Social Icons -->
+                <ul class="icons">
+                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+                    <li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+                    <li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+                    <li><a href="#" class="icon fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div id="main">
+            <!-- Intro -->
+            <section id="top" class="one dark cover">
+                <div class="container">
+                    <header>
+                        <h2 class="alt">KKU Shuttle Bus Tracking System</h2>
+                        <!-- <p>Ligula scelerisque justo sem accumsan diam quis<br /> -->
+                            <!-- vitae natoque dictum sollicitudin elementum.</p> -->
+                    </header>
+                    <footer>
+                        <a href="#portfolio" class="button scrolly">Map</a>
+                        <a href="#about" class="button scrolly">Report</a>
+                    </footer>
+                </div>
+            </section>
+
+            <!-- portfolio -->
+            <section id="portfolio" class="two">
+                <div class="container">
+					<select id = "destSub"></select>
+				</div>
+				<!-- <div id = "map-canvas"></div> -->
+            </section>
+			<section id="map-canvas" class="map"></section>
+
+            <!-- Report -->
+            <section id="about" class="three">
+                <div class="container">
+                    <header>
+                        <h2 align="center">Report</h2>
+                    </header>
+					<form>
+                        <table>
+    						<tr>
+                                <th><input type="radio" name="list" value="type1">แสดงข้อมูลรายปี</th>
+                                <th>
+                                    <select id = "ddl_year1" disabled>
+            							<option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+            							<option value="2014">2557</option>
+            							<option value="2015">2558</option>
+            							<option value="2016">2559</option>
+            							<option value="2017">2560</option>
+            							<option value="2018">2561</option>
+    						          </select>
+                                  </th>
+                              </tr>
+                              <tr>
+    						      <th><input type="radio" name="list" value="type2">แสดงข้อมูลรายเดือน</th>
+                                  <th>
+                                    <select id = "ddl_month" disabled>
+            							<option disabled selected value="default"> -- เลือกเดือนที่ต้องการแสดง -- </option>
+            							<option value="01">มกราคม</option>
+            							<option value="02">กุมภาพันธ์</option>
+            							<option value="03">มีนาคม</option>
+            							<option value="04">เมษายน</option>
+            							<option value="05">พฤษภาคม</option>
+            							<option value="06">มิถุนายน</option>
+            							<option value="07">กรกฎาคม</option>
+            							<option value="08">สิงหาคม</option>
+            							<option value="09">กันยายน</option>
+            							<option value="10">ตุลาคม</option>
+            							<option value="11">พฤศจิกายน</option>
+            							<option value="12">ธันวาคม</option>
+            						</select>
+            						<select id = "ddl_year2" disabled>
+            							<option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+            							<option value="2014">2557</option>
+            							<option value="2015">2558</option>
+            							<option value="2016">2559</option>
+            							<option value="2017">2560</option>
+            							<option value="2018">2561</option>
+            						</select>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <input type="radio" name="list" value="type3">แสดงข้อมูลรายวัน</br>
+                                    <input type="button" id="submit" value="submit">
+                                </th>
+                                <th>
+                                    <input type="text" id="datepicker" value="-- เลือกวันที่ต้องการ --" disabled>
+                                </th>
+    						</tr>
+                        </table>
+					</form>
+					<div id="div1"></div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact" class="four">
+                <div class="container">
+
+                    <header>
+                        <h2 align="center">About Me</h2>
+                    </header>
+					
+					<b>Developers</b></br>
+					Mr.Chayut   Luenyote and Mr.Chanchai Thaiyanon</br>
+					Computer Engineering KKU
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Footer -->
+        <div id="footer">
+
+            <!-- Copyright -->
+            <ul class="copyright">
+                <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+
+        </div>
+
+    </body>
+</html>

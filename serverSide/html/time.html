@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>KKU Shuttle Bus Tracking Webapplication</title>
+	<link rel="stylesheet" type="text/css" href="/css/style2.css"/>
+	<link rel="stylesheet" type="text/css" href="/css/main.css"/>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/db_time.js"></script>
+	<script src="/js/excellentexport.js"></script>
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+</head>
+<body>
+	<div id="flashContent" align="center">
+		<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="1024" height="200" id="bus" align="middle">
+			<param name="movie" value="/images/banner" />
+			<param name="quality" value="high" />
+			<param name="bgcolor" value="#ffffff" />
+			<param name="play" value="true" />
+			<param name="loop" value="true" />
+			<param name="wmode" value="window" />
+			<param name="scale" value="showall" />
+			<param name="menu" value="true" />
+			<param name="devicefont" value="false" />
+			<param name="salign" value="" />
+			<param name="allowScriptAccess" value="sameDomain" />
+			<!--[if !IE]>-->
+			<object type="application/x-shockwave-flash" data="/images/banner" width="1024" height="200">
+				<param name="movie" value="/images/banner" />
+				<param name="quality" value="high" />
+				<param name="bgcolor" value="#ffffff" />
+				<param name="play" value="true" />
+				<param name="loop" value="true" />
+				<param name="wmode" value="window" />
+				<param name="scale" value="showall" />
+				<param name="menu" value="true" />
+				<param name="devicefont" value="false" />
+				<param name="salign" value="" />
+				<param name="allowScriptAccess" value="sameDomain" />
+			<!--<![endif]-->
+				<a href="http://www.adobe.com/go/getflash">
+					<img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+				</a>
+			<!--[if !IE]>-->
+			</object>
+			<!--<![endif]-->
+		</object>
+	</div>
+	<div class="page">
+		<div class="header">
+			<ul class="navigation">
+				<li>
+					<a href="/">Home</a>
+				</li>
+				<li>
+					<a href="/report">Report</a>
+				</li>
+				<li class="selected">
+					<a href="/time">Time</a>
+				</li>
+				<li>
+					<a href="/about">About us</a>
+				</li>
+			</ul>
+			<a id="logo2"></a>
+		</div>
+		<div class="body" align="center">
+		<form>
+			<table>
+				<tr>
+					<td align="center">หมายเลขรถ</td>
+					<td>
+						<select id = "ddl_busnumber">
+							<option selected value="0">1</option>
+							<option value="1">2</option>
+							<option value="2">3</option>
+							<option value="3">4</option>
+							<option value="4">5</option>
+							<option value="5">6</option>
+							<option value="6">7</option>
+							<option value="7">8</option>
+							<option value="8">9</option>
+							<option value="9">10</option>
+							<option value="10">11</option>
+							<option value="11">12</option>
+							<option value="12">13</option>
+							<option value="13">14</option>
+							<option value="14">15</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="radio" name="list" value="type1">แสดงข้อมูลรายปี </td>
+					<td>
+						<select id = "ddl_year1" disabled>
+							<option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+							<option value="2015">2015</option>
+						</select>
+					</td>
+				  </tr>
+				  <tr>
+					  <td><input type="radio" name="list" value="type2">แสดงข้อมูลรายเดือน</td>
+					  <td>
+						<select id = "ddl_month" disabled>
+							<option disabled selected value="default"> -- เลือกเดือนที่ต้องการแสดง -- </option>
+							<option value="01">มกราคม</option>
+							<option value="02">กุมภาพันธ์</option>
+							<option value="03">มีนาคม</option>
+							<option value="04">เมษายน</option>
+							<option value="05">พฤษภาคม</option>
+							<option value="06">มิถุนายน</option>
+							<option value="07">กรกฎาคม</option>
+							<option value="08">สิงหาคม</option>
+							<option value="09">กันยายน</option>
+							<option value="10">ตุลาคม</option>
+							<option value="11">พฤศจิกายน</option>
+							<option value="12">ธันวาคม</option>
+						</select>
+						<select id = "ddl_year2" disabled>
+							<option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+							<option value="2015">2015</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" name="list" value="type3">แสดงข้อมูลรายวัน
+					</td>
+					<td>
+						<input type="text" id="datepicker" value="-- เลือกวันที่ต้องการ --" disabled>
+					</td>
+				</tr>
+			</table>
+			<input type="button" id="submit" value="submit"><br/>
+		</form>
+		<hr/>
+		<div id="div1" align="center"></div>
+		</div>
+		</br></br>
+	</div>
+</body>
+</html>

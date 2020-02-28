@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>KKU Shuttle Bus Tracking Webapplication</title>
+        <link rel="stylesheet" type="text/css" href="/css/main.css"/>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/jquery.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAnWIxyviikAuZ6cm7mtHWVND030pb08LM&libraries=geometry&v=3.exp&sensor=false"></script>
+        <script src="/js/map.js"></script>
+    </head>
+
+    <body>
+        <table class="primaryTable" align="center">
+            <tr>
+                <td id="map-canvas"></td>
+                <td>
+                    <div id="infoDiv">
+                        <table class="secondaryTable">
+                            <tr class="secTab_td_odd"><td width="100px" id="info_bus01"></td><td id="info_bus1"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus02"></td><td id="info_bus2"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus03"></td><td id="info_bus3"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus04"></td><td id="info_bus4"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus05"></td><td id="info_bus5"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus06"></td><td id="info_bus6"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus07"></td><td id="info_bus7"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus08"></td><td id="info_bus8"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus09"></td><td id="info_bus9"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus010"></td><td id="info_bus10"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus011"></td><td id="info_bus11"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus012"></td><td id="info_bus12"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus013"></td><td id="info_bus13"></td></tr>
+                            <tr class="secTab_td_even"><td id="info_bus014"></td><td id="info_bus14"></td></tr>
+                            <tr class="secTab_td_odd"><td id="info_bus015"></td><td id="info_bus15"></td></tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

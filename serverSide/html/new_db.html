@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>KKU Shuttle Bus Tracking Webapplication</title>
+		<script src="/js/jquery.min.js"></script>
+		<script src="/js/db.js"></script>
+		<script src="/js/excellentexport.js"></script>
+        <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/main.css" />
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+    </head>
+
+    <body align="left">
+        <form>
+			<h3>ราายงานผล</h3>
+			<table>
+				<tr>
+					<td><input type="radio" name="list" value="type1">แสดงข้อมูลรายปี </td>
+					<td>
+						<select id = "ddl_year1" disabled>
+							<option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+							<option value="2015">2558</option>
+						  </select>
+					  </td>
+				  </tr>
+				  <tr>
+					  <td><input type="radio" name="list" value="type2">แสดงข้อมูลรายเดือน</td>
+					  <td>
+						<select id = "ddl_month" disabled>
+							<option disabled selected value="default"> -- เลือกเดือนที่ต้องการแสดง -- </option>
+							<option value="01">มกราคม</option>
+							<option value="02">กุมภาพันธ์</option>
+							<option value="03">มีนาคม</option>
+							<option value="04">เมษายน</option>
+							<option value="05">พฤษภาคม</option>
+							<option value="06">มิถุนายน</option>
+							<option value="07">กรกฎาคม</option>
+							<option value="08">สิงหาคม</option>
+							<option value="09">กันยายน</option>
+							<option value="10">ตุลาคม</option>
+							<option value="11">พฤศจิกายน</option>
+							<option value="12">ธันวาคม</option>
+						</select>
+						<select id = "ddl_year2" disabled>
+							<option disabled selected value="default"> -- เลือกปีที่ต้องการแสดง -- </option>
+							<option value="2014">2557</option>
+							<option value="2015">2558</option>
+							<option value="2016">2559</option>
+							<option value="2017">2560</option>
+							<option value="2018">2561</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" name="list" value="type3">แสดงข้อมูลรายวัน
+					</td>
+					<td>
+						<input type="text" id="datepicker" value="-- เลือกวันที่ต้องการ --" disabled>
+					</td>
+				</tr>
+			</table>
+			<input type="button" id="submit" value="submit"><br/>
+		</form>
+		<hr/>
+		<div id="div1">
+			<!-- <table id="tb1" class="databaseTable">
+				<tr align="center">
+					<td class="databaseTable">หมายเลขรถ</td>
+					<td class="databaseTable">สายรถ</td>
+					<td class="databaseTable">ระยะทางต่อเที่ยว (Km)</td>
+					<td class="databaseTable">จำนวนเที่ยว (เที่ยว)</td>
+					<td class="databaseTable">ระยะทางรวม (Km)</td>
+					<td class="databaseTable">ความเร็วเฉลี่ย (Km/hr)</td>
+					<td class="databaseTable">ความเร็วสูงสุด (Km/hr)</td>
+					<td class="databaseTable">จำนวนผู้โดยสาร (คน)</td>
+				</tr>
+			</table> -->
+		</div>
+    </body>
+</html>

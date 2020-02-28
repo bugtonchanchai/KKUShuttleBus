@@ -1,0 +1,570 @@
+Wed Apr 22 2015 00:17:36 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
+Wed Apr 22 2015 00:19:36 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+ERROR : Cannot connect to database.
+Wed Apr 22 2015 00:22:24 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+Wed Apr 22 2015 00:24:43 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERROR : Cannot update value in BUS1 table.
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+Wed Apr 22 2015 20:21:26 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
+Thu Apr 23 2015 09:26:42 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+Error: read ECONNRESET
+    at exports._errnoException (util.js:746:11)
+    at TCP.onread (net.js:550:26)
+_http_outgoing.js:335
+    throw new Error('Can\'t set headers after they are sent.');
+          ^
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:335:11)
+    at ServerResponse.res.setHeader (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/connect/lib/patch.js:63:22)
+    at SendStream.setHeader (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/send/lib/send.js:469:44)
+    at SendStream.send (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/send/lib/send.js:345:8)
+    at /home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/send/lib/send.js:323:10
+    at FSReqWrap.oncomplete (fs.js:99:15)
+Thu Apr 23 2015 11:01:51 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
+Thu Apr 23 2015 11:28:25 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+Thu Apr 23 2015 11:31:23 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+Error: read ECONNRESET
+    at exports._errnoException (util.js:746:11)
+    at TCP.onread (net.js:550:26)
+_http_outgoing.js:335
+    throw new Error('Can\'t set headers after they are sent.');
+          ^
+Error: Can't set headers after they are sent.
+    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:335:11)
+    at ServerResponse.res.setHeader (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/connect/lib/patch.js:63:22)
+    at SendStream.setHeader (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/send/lib/send.js:469:44)
+    at SendStream.send (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/send/lib/send.js:345:8)
+    at /home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/send/lib/send.js:323:10
+    at FSReqWrap.oncomplete (fs.js:99:15)
+Thu Apr 23 2015 11:58:13 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+Thu Apr 23 2015 12:05:25 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+TypeError: Cannot read property 'replace' of undefined
+    at Object.SqlString.format (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/SqlString.js:56:13)
+    at Connection.format (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/Connection.js:99:20)
+    at Connection.query (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/Connection.js:64:22)
+    at /home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/index.js:165:16
+    at callbacks (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:164:37)
+    at param (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:138:11)
+    at pass (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:145:5)
+    at Router._dispatch (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:33:10)
+    at next (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/connect/lib/proto.js:193:15)
+TypeError: Cannot read property 'replace' of undefined
+    at Object.SqlString.format (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/SqlString.js:56:13)
+    at Connection.format (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/Connection.js:99:20)
+    at Connection.query (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/Connection.js:64:22)
+    at /home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/index.js:165:16
+    at callbacks (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:164:37)
+    at param (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:138:11)
+    at pass (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:145:5)
+    at Router._dispatch (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:173:5)
+    at Object.router (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/lib/router/index.js:33:10)
+    at next (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/express.io/node_modules/express/node_modules/connect/lib/proto.js:193:15)
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
+Fri Apr 24 2015 00:26:50 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+Fri Apr 24 2015 00:53:40 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERROR : Cannot update value in BUS2 table.
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERRROR message : NO GPS SIGNAL
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+ERROR : Cannot update value in BUS1 table.
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
+Sat Apr 25 2015 00:38:03 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
+Sat Apr 25 2015 13:04:15 GMT+0700 (ICT)
+listening 127.0.0.1:30000
+events.js:85
+      throw er; // Unhandled 'error' event
+            ^
+Error: Connection lost: The server closed the connection.
+    at Protocol.end (/home/bugtonch/domains/bugtonchanchai.com/public_html/serverSide/node_modules/mysql/lib/protocol/Protocol.js:63:13)
+    at Socket.onend (_stream_readable.js:505:10)
+    at Socket.g (events.js:199:16)
+    at Socket.emit (events.js:129:20)
+    at _stream_readable.js:908:16
+    at process._tickCallback (node.js:355:11)
